@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'jwt',  // This will enable JWT for API authentication
+            'provider' => 'users',
+        ],
     ],
 
     /*
