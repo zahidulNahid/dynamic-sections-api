@@ -30,6 +30,7 @@ class FeatureController extends Controller
         $feature = Feature::first();
 
         // Preserve existing images
+        
         $mbl_img1 = $feature->mbl_img1 ?? null;
         $mbl_img2 = $feature->mbl_img2 ?? null;
         $mbl_img3 = $feature->mbl_img3 ?? null;
@@ -69,6 +70,7 @@ class FeatureController extends Controller
 
         // Prepare the data
         $data = [
+            'color' => $request->input('color'),
             'title1' => $request->input('title1'),
             'title2' => $request->input('title2'),
             'mbl_img1' => $mbl_img1,

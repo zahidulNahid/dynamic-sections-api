@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('features', function (Blueprint $table) {
             $table->id();
+            $table->string('color')->nullable();
             $table->string('mbl_img1')->nullable();
             $table->string('mbl_img2')->nullable();
             $table->string('mbl_img3')->nullable();
