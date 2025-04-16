@@ -2,65 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Feature;
+use Illuminate\Http\Request;
 
 class FeatureController extends Controller
 {
-    // Get the first MobileBanner data
+    // Show the first feature record
     public function show()
     {
         $feature = Feature::first();
 
-        // Convert image fields to full URLs if available
+        // Append full image URLs if available
         if ($feature) {
-            foreach (['mbl_img1', 'mbl_img2', 'mbl_img3', 'mbl_img4'] as $imgField) {
-                $feature->$imgField = $feature->$imgField ? url('uploads/features/' . $feature->$imgField) : null;
-            }
+            $feature->mbl_img1 = $feature->mbl_img1 ? url('uploads/features/' . $feature->mbl_img1) : null;
+            $feature->mbl_img2 = $feature->mbl_img2 ? url('uploads/features/' . $feature->mbl_img2) : null;
+            $feature->mbl_img3 = $feature->mbl_img3 ? url('uploads/features/' . $feature->mbl_img3) : null;
+            $feature->mbl_img4 = $feature->mbl_img4 ? url('uploads/features/' . $feature->mbl_img4) : null;
         }
 
         return response()->json($feature);
     }
 
-    // Store or update the first MobileBanner
+    // Store or update feature data
     public function storeOrUpdate(Request $request)
     {
         $feature = Feature::first();
 
-        // Prepare image data
-        $imgFields = ['mbl_img1', 'mbl_img2', 'mbl_img3', 'mbl_img4'];
-        $images = [];
+        // Preserve existing image names if no new files uploaded
+        $mbl_img1 = $feature->mbl_img1 ?? null;
+        $mbl_img2 = $feature->mbl_img2 ?? null;
+        $mbl_img3 = $feature->mbl_img3 ?? null;
+        $mbl_img4 = $feature->mbl_img4 ?? null;
 
-        foreach ($imgFields as $field) {
-            $existing = $feature->$field ?? null;
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/features'), $filename);
-                $images[$field] = $filename;
-            } else {
-                $images[$field] = $existing;
-            }
+        // Handle file uploads
+        if ($request->hasFile('mbl_img1')) {
+            $file = $request->file('mbl_img1');
+            $mbl_img1 = time() . '_mbl_img1.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/features'), $mbl_img1);
         }
 
-        // Process other fields
+        if ($request->hasFile('mbl_img2')) {
+            $file = $request->file('mbl_img2');
+            $mbl_img2 = time() . '_mbl_img2.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/features'), $mbl_img2);
+        }
+
+        if ($request->hasFile('mbl_img3')) {
+            $file = $request->file('mbl_img3');
+            $mbl_img3 = time() . '_mbl_img3.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/features'), $mbl_img3);
+        }
+
+        if ($request->hasFile('mbl_img4')) {
+            $file = $request->file('mbl_img4');
+            $mbl_img4 = time() . '_mbl_img4.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/features'), $mbl_img4);
+        }
+
+        // Prepare the data
         $data = [
             'title1' => $request->input('title1'),
             'title2' => $request->input('title2'),
             'all_mbl_img' => $request->input('all_mbl_img'),
-        ] + $images;
+            'mbl_img1' => $mbl_img1,
+            'mbl_img2' => $mbl_img2,
+            'mbl_img3' => $mbl_img3,
+            'mbl_img4' => $mbl_img4,
+        ];
 
+        // Save or update the feature
         if ($feature) {
             $feature->update($data);
         } else {
             $feature = Feature::create($data);
         }
 
-        // Return full image URLs
-        foreach ($imgFields as $field) {
-            $feature->$field = $feature->$field ? url('uploads/features/' . $feature->$field) : null;
-        }
+        // Append full image URLs before returning
+        $feature->mbl_img1 = $feature->mbl_img1 ? url('uploads/features/' . $feature->mbl_img1) : null;
+        $feature->mbl_img2 = $feature->mbl_img2 ? url('uploads/features/' . $feature->mbl_img2) : null;
+        $feature->mbl_img3 = $feature->mbl_img3 ? url('uploads/features/' . $feature->mbl_img3) : null;
+        $feature->mbl_img4 = $feature->mbl_img4 ? url('uploads/features/' . $feature->mbl_img4) : null;
 
         return response()->json($feature);
     }
