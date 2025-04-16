@@ -2,59 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\MobileMockUp;
 use Illuminate\Http\Request;
 
 class MobileMockUpController extends Controller
 {
+    // Show the first mobile mockup record
     public function show()
     {
-        $banner = MobileMockUp::first();
+        $mockup = MobileMockUp::first();
 
-        // Optional: Generate full URL for images
-        if ($banner) {
-            foreach (['back_img', 'mbl_img1', 'mbl_img2'] as $imgField) {
-                if ($banner->$imgField) {
-                    $banner->$imgField = url('uploads/mobilemockup/' . $banner->$imgField);
-                }
-            }
+        // Append full image URLs if available
+        if ($mockup) {
+            $mockup->back_img = $mockup->back_img ? url('uploads/mobilemockup/' . $mockup->back_img) : null;
+            $mockup->mbl_img1 = $mockup->mbl_img1 ? url('uploads/mobilemockup/' . $mockup->mbl_img1) : null;
+            $mockup->mbl_img2 = $mockup->mbl_img2 ? url('uploads/mobilemockup/' . $mockup->mbl_img2) : null;
         }
 
-        return response()->json($banner);
+        return response()->json($mockup);
     }
 
+    // Store or update the mockup
     public function storeOrUpdate(Request $request)
     {
-        $banner = MobileMockUp::first();
+        $mockup = MobileMockUp::first();
 
-        $data = $request->all();
+        // Preserve existing images
+        $back_img = $mockup->back_img ?? null;
+        $mbl_img1 = $mockup->mbl_img1 ?? null;
+        $mbl_img2 = $mockup->mbl_img2 ?? null;
 
-        // Handle image uploads
-        foreach (['back_img', 'mbl_img1', 'mbl_img2'] as $field) {
-            if ($request->hasFile($field)) {
-                $file = $request->file($field);
-                $filename = time() . "_{$field}." . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/mobilemockup'), $filename);
-                $data[$field] = $filename;
-            } elseif ($banner) {
-                $data[$field] = $banner->$field; // keep old value if not updated
-            }
+        // Handle uploads
+        if ($request->hasFile('back_img')) {
+            $file = $request->file('back_img');
+            $back_img = time() . '_back_img.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/mobilemockup'), $back_img);
         }
 
-        if ($banner) {
-            $banner->update($data);
+        if ($request->hasFile('mbl_img1')) {
+            $file = $request->file('mbl_img1');
+            $mbl_img1 = time() . '_mbl_img1.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/mobilemockup'), $mbl_img1);
+        }
+
+        if ($request->hasFile('mbl_img2')) {
+            $file = $request->file('mbl_img2');
+            $mbl_img2 = time() . '_mbl_img2.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/mobilemockup'), $mbl_img2);
+        }
+
+        // Prepare data for insert/update
+        $data = [
+            'title' => $request->input('title'),
+            'subtitle' => $request->input('subtitle'),
+            'back_img' => $back_img,
+            'mbl_img1' => $mbl_img1,
+            'mbl_img2' => $mbl_img2,
+        ];
+
+        if ($mockup) {
+            $mockup->update($data);
         } else {
-            $banner = MobileMockUp::create($data);
+            $mockup = MobileMockUp::create($data);
         }
 
-        // Return full image URLs
-        foreach (['back_img', 'mbl_img1', 'mbl_img2'] as $imgField) {
-            if ($banner->$imgField) {
-                $banner->$imgField = url('uploads/mobilemockup/' . $banner->$imgField);
-            }
-        }
+        // Append full image URLs before returning
+        $mockup->back_img = $mockup->back_img ? url('uploads/mobilemockup/' . $mockup->back_img) : null;
+        $mockup->mbl_img1 = $mockup->mbl_img1 ? url('uploads/mobilemockup/' . $mockup->mbl_img1) : null;
+        $mockup->mbl_img2 = $mockup->mbl_img2 ? url('uploads/mobilemockup/' . $mockup->mbl_img2) : null;
 
-        return response()->json($banner);
+        return response()->json($mockup);
     }
 }
