@@ -16,7 +16,7 @@ class MobileMockUpController extends Controller
         if ($banner) {
             foreach (['back_img', 'mbl_img1', 'mbl_img2'] as $imgField) {
                 if ($banner->$imgField) {
-                    $banner->$imgField = url('uploads/banners/' . $banner->$imgField);
+                    $banner->$imgField = url('uploads/mobilemockup/' . $banner->$imgField);
                 }
             }
         }
@@ -35,7 +35,7 @@ class MobileMockUpController extends Controller
             if ($request->hasFile($field)) {
                 $file = $request->file($field);
                 $filename = time() . "_{$field}." . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/banners'), $filename);
+                $file->move(public_path('uploads/mobilemockup'), $filename);
                 $data[$field] = $filename;
             } elseif ($banner) {
                 $data[$field] = $banner->$field; // keep old value if not updated
