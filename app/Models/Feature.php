@@ -16,5 +16,6 @@ class Feature extends Model
         'title1',
         'all_mbl_img',
         'title2',
+        'color',
     ];
 }
