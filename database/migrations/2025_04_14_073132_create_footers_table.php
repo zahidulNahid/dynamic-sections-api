@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('login_link')->nullable();
             $table->string('app_store_link')->nullable();
             $table->string('google_play_link')->nullable();
-            $table->string('first_text')->nullable();
-            $table->string('second_text')->nullable();
-            $table->string('third_text')->nullable();
+            $table->longText('first_text')->nullable();
+            $table->longText('second_text')->nullable();
+            $table->longText('third_text')->nullable();
             $table->timestamps();
         });
     }

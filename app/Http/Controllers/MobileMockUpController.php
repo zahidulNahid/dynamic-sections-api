@@ -53,8 +53,10 @@ class MobileMockUpController extends Controller
 
         // Prepare data for insert/update
         $data = [
-            'title' => $request->input('title'),
-            'subtitle' => $request->input('subtitle'),
+            'title1' => $request->input('title1'),
+            'title2' => $request->input('title2'),
+            'title3' => $request->input('title3'),
+            'color' => $request->input('color'),
             'back_img' => $back_img,
             'mbl_img1' => $mbl_img1,
             'mbl_img2' => $mbl_img2,
