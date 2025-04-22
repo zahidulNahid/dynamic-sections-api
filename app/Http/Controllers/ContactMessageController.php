@@ -20,7 +20,7 @@ class ContactMessageController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'number' => 'required|string|max:20',
-            'email' => 'required|email|unique:contact_messages,email',
+            'email' => 'required|email',
             'message' => 'nullable|string',
         ]);
 
