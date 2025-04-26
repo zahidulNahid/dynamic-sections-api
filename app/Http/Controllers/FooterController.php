@@ -39,11 +39,11 @@ class FooterController extends Controller
             'app_store_link' => $request->input('app_store_link'),
             'google_play_link' => $request->input('google_play_link'),
             'first_text' => $request->input('first_text'),
-            'first_text_back_color' => $request->input('first_text_color'),
+            'first_text_back_color' => $request->input('first_text_back_color'),
             'second_text' => $request->input('second_text'),
-            'second_text_back_color' => $request->input('second_text_color'),
+            'second_text_back_color' => $request->input('second_text_back_color'),
             'third_text' => $request->input('third_text'),
-            'third_text_back_color' => $request->input('third_text_color'),
+            'third_text_back_color' => $request->input('third_text_back_color'),
             'logo' => $logo,
         ];
 

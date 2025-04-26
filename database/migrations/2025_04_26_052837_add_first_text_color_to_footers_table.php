@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('footers', function (Blueprint $table) {
             Schema::table('footers', function (Blueprint $table) {
-                $table->string('first_text_color')->nullable();
+                $table->string('first_text_back_color')->nullable();
             });
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
     {
         Schema::table('footers', function (Blueprint $table) {
             Schema::table('footers', function (Blueprint $table) {
-                $table->dropColumn('first_text_color');
+                $table->dropColumn('first_text_back_color');
             });
         });
     }
