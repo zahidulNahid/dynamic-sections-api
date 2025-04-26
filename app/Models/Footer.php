@@ -15,11 +15,11 @@ class Footer extends Model
         'app_store_link',
         'google_play_link',
         'first_text',
-        'first_text_back_color',
+        'first_text_color',
         'second_text',
-        'second_text_back_color',
+        'second_text_color',
         'third_text',
-        'third_text_back_color',
+        'third_text_color',
     ];
 
 }
