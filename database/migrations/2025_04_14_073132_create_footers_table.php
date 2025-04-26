@@ -19,8 +19,11 @@ return new class extends Migration
             $table->string('app_store_link')->nullable();
             $table->string('google_play_link')->nullable();
             $table->string('first_text')->nullable();
+            // $table->string('first_text_color')->nullable();
             $table->string('second_text')->nullable();
+            // $table->string('second_text_color')->nullable();
             $table->string('third_text')->nullable();
+            // $table->string('third_text_color')->nullable();
             $table->timestamps();
         });
     }
