@@ -14,8 +14,7 @@ use App\Http\Controllers\FooterController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\MobileMockUpController;
-
-
+use App\Http\Controllers\UpdateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,9 +94,17 @@ Route::middleware('auth:api')->group(function () {
 
 });
 
+//for update email and password
+Route::middleware('auth:api')->group(function () {
+    Route::get('/update', [UpdateController::class, 'show']);
+    Route::patch('/update', [UpdateController::class, 'Update']);
+
+});
+
 
 Route::get('/frontend-data', [FrontendController::class, 'getAllData']);
 Route::post('/contactMessage', [ContactMessageController::class, 'store']);
 // Route::post('/Message', [ContactMessageController::class, 'store']);
 
 Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
+
