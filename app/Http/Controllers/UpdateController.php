@@ -42,8 +42,8 @@ class UpdateController extends Controller
             $user = Auth::user();
 
             $user->update([
-                'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
             ]);
 
             return response()->json([
