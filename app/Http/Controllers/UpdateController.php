@@ -9,6 +9,7 @@ use Exception;
 
 class UpdateController extends Controller
 {
+    // Show the authenticated user's email
     public function show()
     {
         try {
@@ -19,7 +20,7 @@ class UpdateController extends Controller
                 'data' => [
                     'email' => $user->email,
                 ]
-            ], 200);
+            ]);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -29,6 +30,7 @@ class UpdateController extends Controller
         }
     }
 
+    // Update the authenticated user's profile
     public function update(Request $request)
     {
         try {
@@ -38,14 +40,19 @@ class UpdateController extends Controller
             ]);
 
             $user = Auth::user();
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->save();
+
+            $user->update([
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+            ]);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Profile updated successfully.',
-            ], 200);
+                'data' => [
+                    'email' => $user->email,
+                ]
+            ]);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
