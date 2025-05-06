@@ -34,10 +34,10 @@ class UpdateController extends Controller
     public function UpdateEP(Request $request)
     {
         try {
-            $request->validate([
-                'email' => 'required|email|unique:users,email,' . Auth::id(),
-                'password' => 'required|string|min:8|confirmed',
-            ]);
+            // $request->validate([
+            //     'email' => 'required|email|unique:users,email,',
+            //     'password' => 'required|string|min:8|confirmed',
+            // ]);
 
             $user = Auth::user();
 
