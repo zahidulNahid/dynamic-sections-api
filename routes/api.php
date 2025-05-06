@@ -96,8 +96,8 @@ Route::middleware('auth:api')->group(function () {
 
 //for update email and password
 Route::middleware('auth:api')->group(function () {
-    Route::get('/update', [UpdateController::class, 'show']);
-    Route::patch('/update', [UpdateController::class, 'UpdateEP']);
+    Route::get('/updateEp', [UpdateController::class, 'show']);
+    Route::post('/updateEp', [UpdateController::class, 'UpdateEP']);
 
 });
 

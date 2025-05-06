@@ -31,7 +31,7 @@ class UpdateController extends Controller
     }
 
     // Update the authenticated user's profile
-    public function update(Request $request)
+    public function UpdateEP(Request $request)
     {
         try {
             $request->validate([
