@@ -27,7 +27,7 @@ class ContactMessageController extends Controller
         $contact = ContactMessage::create($validated);
 
         // Send email to abubdcalling@gmail.com
-        Mail::to('abubdcalling@gmail.com')->send(new ContactMessageMail($contact));
+        Mail::to('goals@splurjj.com')->send(new ContactMessageMail($contact));
 
         return response()->json([
             'message' => 'Contact message saved successfully.',
